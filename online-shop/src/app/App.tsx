@@ -1,6 +1,8 @@
 import React from 'react';
 
-import './App.css';
+import 'bulma/css/bulma.css';
+//import '../styles/css/mystyles.css';
+
 import ProductDetails from '../components/product/ProductDetailsComponent';
 import Products from '../components/product/ProductsComponent';
 import productsJson from '../model/products.json';
