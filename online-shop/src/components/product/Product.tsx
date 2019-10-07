@@ -1,7 +1,6 @@
 import React from 'react';
 import { IProduct } from '../../app/App';
 
-
 export function Product({data}: {data: IProduct}) {
     return (
       <tr>

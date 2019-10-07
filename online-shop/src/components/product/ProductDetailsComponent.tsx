@@ -23,7 +23,7 @@ export default class ProductDetails extends React.Component<IProps> {
                         <div className="field is-grouped">
                             <ControlButton name='is-info'
                                 title='EDIT' />
-                            <IconControlButton buttonName='is-danger is-outlined'
+                            <IconControlButton buttonName='is-primary is-outlined'
                                 buttonTitle='DELETE'
                                 iconName='is-small'
                                 iconTitle='fas fa-times' />

@@ -1,10 +1,15 @@
 import React from 'react';
 
-export function ControlButton(props: any) {
+interface IProps {
+    name: string,
+    title: string
+}
+
+export function ControlButton({name, title}: IProps) {
     return (
         <p className='control'>
-            <button className={`button ${props.name}`}>
-                <span>{props.title}</span>
+            <button className={`button ${name}`}>
+                <span>{title}</span>
             </button>
         </p>
     );
