@@ -1,10 +1,9 @@
 import React from 'react';
 
-import { IProduct } from "../../app/App";
-import { Product } from "./Product";
+import { IProduct } from '../../types';
 import { ControlButton } from '../utils/ControlButton';
 import { IconControlButton } from '../utils/IconControlButton';
-
+import { Product } from "./Product";
 
 
 export function ProductList({ data }: { data: IProduct[] }) {
