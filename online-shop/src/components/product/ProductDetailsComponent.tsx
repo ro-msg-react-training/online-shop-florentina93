@@ -1,11 +1,10 @@
 import React from 'react';
 
+import './ProductDetailsComponent.scss';
 import { IProduct } from '../../app/App';
 import { ControlButton } from '../utils/ControlButton';
 import { IconControlButton } from '../utils/IconControlButton';
 import productsJson from '../../model/products.json';
-
-
 
 interface IProps {
     data: IProduct,
@@ -13,12 +12,17 @@ interface IProps {
 }
 
 export default class ProductDetails extends React.Component<IProps> {
+
+    handleClick(e: any) {
+        e.preventDefault();
+        console.log('The button was clicked!');
+    }
+    
     render() {
-        console.log(this.props);
         const data: IProduct[] = Object.values(productsJson);
         const product: IProduct = data[this.props.match.params.id];
-        
-        return (    
+       
+        return (
             <section className='section'>
                 <nav className="navbar is-transparent">
                     <div className='navbar-start'>
@@ -28,16 +32,20 @@ export default class ProductDetails extends React.Component<IProps> {
                     </div>
                     <div className="navbar-end">
                         <div className="field is-grouped">
+                            <IconControlButton buttonName='is-success' buttonTitle='Add to shopping cart'
+                                iconTitle='fas fa-shopping-cart' clickEvent={this.handleClick}/>
                             <ControlButton name='is-info'
-                                title='EDIT' />
+                                title='EDIT' clickEvent={this.handleClick}/>
                             <IconControlButton buttonName='is-primary is-outlined'
                                 buttonTitle='DELETE'
                                 iconName='is-small'
-                                iconTitle='fas fa-times' />
+                                iconTitle='fas fa-times'
+                                clickEvent={this.handleClick} />
+
                         </div>
                     </div>
                 </nav>
-                <img src={product.image} alt={product.name} />
+                <img src={product.image} className='image-size' alt={product.name} />
                 <table className='table'>
                     <tbody>
                         <tr>
