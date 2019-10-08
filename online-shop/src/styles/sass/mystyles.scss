@@ -4,12 +4,12 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 
 // Set your brand colors
-$primary-color: #a01441;
+$msg-color: #a01441;
 $font: 'Open Sans', sans-serif;
 
 // Update Bulma's global variables
 $family-sans-serif: $font;
-$primary: $primary-color;
+$primary: $msg-color;
 
 // Import only what you need from Bulma. Check what you need!
 @import "../../../node_modules/bulma/bulma.sass";

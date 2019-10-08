@@ -1,5 +1,6 @@
 import React from 'react';
 import { IProduct } from '../../app/App';
+import { Link } from 'react-router-dom';
 
 export function Product({data}: {data: IProduct}) {
     return (
@@ -7,7 +8,9 @@ export function Product({data}: {data: IProduct}) {
         <td>{data.category}</td>
         <td>{data.name}</td>
         <td>{data.price} RON</td>
-        <td>{'>'}</td>
+        <td>       
+          <Link to={`/products/${data.id}`}>{'>'}</Link>
+        </td>
       </tr>
     );
 }

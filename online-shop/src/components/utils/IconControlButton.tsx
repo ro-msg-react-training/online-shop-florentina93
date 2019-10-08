@@ -12,7 +12,7 @@ export function IconControlButton({buttonName, buttonTitle, iconName, iconTitle}
             <button className={`button ${buttonName}`}>
                 <span>{buttonTitle}</span>
                 <span className={`icon ${iconName}`}>
-                    <i className={iconTitle}></i>
+                    <i className={iconTitle} />
                 </span>
             </button>
         </p>
