@@ -4,6 +4,7 @@ import { IProduct } from '../../types';
 import { PRODUCTS_PATH, SIMPLE_SLASH } from '../../constants';
 
 export function Product({data}: {data: IProduct}) {
+  //console.log(data);
     return (
       <tr>
         <td>{data.category}</td>

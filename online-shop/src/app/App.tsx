@@ -1,13 +1,17 @@
 import React from 'react';
 
-import Products from '../components/product/ProductsComponent';
-import { Route, Redirect } from 'react-router-dom';
-import { PRODUCTS_PATH, SIMPLE_SLASH } from '../constants';
+import Products from '../components/products/ProductsComponent';
+import { Route, Redirect, Switch } from 'react-router-dom';
+import { PRODUCTS_PATH, ORDERS_PATH, SIMPLE_SLASH } from '../constants';
+import ShoppingCart from '../components/shopping_cart/ShoppingCart';
 
 const App: React.FC = () => (
   <div>
-    <Redirect exact from={SIMPLE_SLASH} to={PRODUCTS_PATH} />
-    <Route path={PRODUCTS_PATH} component={Products} />
+    <Switch>
+      <Redirect exact from={SIMPLE_SLASH} to={PRODUCTS_PATH} />
+      <Route path={PRODUCTS_PATH} component={Products} />
+      <Route path={ORDERS_PATH} component={ShoppingCart} />
+    </Switch>
   </div>
 );
 

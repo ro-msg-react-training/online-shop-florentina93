@@ -5,7 +5,7 @@ interface IProps {
     buttonTitle?: string,
     iconName?: string,
     iconTitle: string,
-    clickEvent: any    
+    clickEvent?: any    
 }
 
 export function IconControlButton({buttonName, buttonTitle, iconName, iconTitle, clickEvent}: IProps) {

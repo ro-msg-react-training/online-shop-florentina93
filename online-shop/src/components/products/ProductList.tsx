@@ -6,11 +6,13 @@ import { IconControlButton } from '../utils/IconControlButton';
 import { Product } from "./Product";
 
 
+
 export function ProductList({ data }: { data: IProduct[] }) {
   function handleClick(e: any) {
     e.preventDefault();
     console.log('The button was clicked!');
   }
+  //console.log(data);
   return (
     <div className='section'>
       <nav className="navbar is-transparent">

@@ -3,7 +3,7 @@ import React from 'react';
 interface IProps {
     name: string,
     title: string,
-    clickEvent: any
+    clickEvent?: any
 }
 
 export function ControlButton({name, title, clickEvent}: IProps) {

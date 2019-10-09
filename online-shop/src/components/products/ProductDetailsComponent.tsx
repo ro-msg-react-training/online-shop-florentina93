@@ -1,32 +1,31 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 
 import './ProductDetailsComponent.scss';
 
-import { IProduct } from '../../types';
 import { BACKEND_API } from '../../constants';
 import { ControlButton } from '../utils/ControlButton';
 import { IconControlButton } from '../utils/IconControlButton';
-
+import { Link } from 'react-router-dom';
 
 interface IProps {
-    match: any
+    match: any,
 }
 
 interface IState {
-    product: IProduct,
+    product: any,
     isFetching: boolean,
-    error: any
+    error: any,
 }
 
 export default class ProductDetails extends React.Component<IProps, IState> {
-
+    private shoppingCartArr: any = [];
     constructor(props: IProps) {
         super(props);
         this.state = {
             product: null as any,
             isFetching: true,
-            error: null
-        };
+            error: null,
+         };
     }
 
     componentDidMount() {
@@ -39,9 +38,8 @@ export default class ProductDetails extends React.Component<IProps, IState> {
     }
 
 
-    handleClick(e: any) {
-        e.preventDefault();
-        console.log('The button was clicked!');
+    addToShoppingCart(product: any, e: SyntheticEvent): void {
+        this.shoppingCartArr.push(product);
     }
 
     render() {
@@ -64,15 +62,16 @@ export default class ProductDetails extends React.Component<IProps, IState> {
                     </div>
                     <div className="navbar-end">
                         <div className="field is-grouped">
-                            <IconControlButton buttonName='is-success' buttonTitle='Add to shopping cart'
-                                iconTitle='fas fa-shopping-cart' clickEvent={this.handleClick} />
+                           <Link to='/orders'>                           
+                                 <IconControlButton buttonName='is-success' buttonTitle='Add to shopping cart'
+                                    iconTitle='fas fa-shopping-cart' clickEvent={(e: SyntheticEvent) => this.addToShoppingCart(product, e)} /> 
+                             </Link>
                             <ControlButton name='is-info'
-                                title='EDIT' clickEvent={this.handleClick} />
+                                title='EDIT' />
                             <IconControlButton buttonName='is-primary is-outlined'
                                 buttonTitle='DELETE'
                                 iconName='is-small'
-                                iconTitle='fas fa-times'
-                                clickEvent={this.handleClick} />
+                                iconTitle='fas fa-times' />
 
                         </div>
                     </div>
