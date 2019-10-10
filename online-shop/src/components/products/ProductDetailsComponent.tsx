@@ -2,44 +2,41 @@ import React, { SyntheticEvent } from 'react';
 
 import './ProductDetailsComponent.scss';
 
-import { BACKEND_API } from '../../constants';
+import { BACKEND_API, PRODUCTS_PATH } from '../../constants';
 import { ControlButton } from '../utils/ControlButton';
 import { IconControlButton } from '../utils/IconControlButton';
-import { Link } from 'react-router-dom';
+import { IProduct } from '../../types';
 
 interface IProps {
-    match: any,
+    id: any,
+    history: any,
+    onAddToCartClick: (product: IProduct) => void,
+    onDeleteProductClick: (id: number) => void
 }
 
 interface IState {
-    product: any,
+    product: IProduct,
     isFetching: boolean,
     error: any,
 }
 
 export default class ProductDetails extends React.Component<IProps, IState> {
-    private shoppingCartArr: any = [];
     constructor(props: IProps) {
         super(props);
         this.state = {
-            product: null as any,
+            product: {} as any,
             isFetching: true,
             error: null,
-         };
+        };
     }
 
     componentDidMount() {
-        fetch(`${BACKEND_API}${this.props.match.url}`)
+        fetch(`${BACKEND_API}${PRODUCTS_PATH}/${this.props.id}`)
             .then(response => response.json())
             .then(result => {
                 this.setState({ product: result, isFetching: false })
             })
             .catch(error => this.setState({ error, isFetching: false }));
-    }
-
-
-    addToShoppingCart(product: any, e: SyntheticEvent): void {
-        this.shoppingCartArr.push(product);
     }
 
     render() {
@@ -62,17 +59,14 @@ export default class ProductDetails extends React.Component<IProps, IState> {
                     </div>
                     <div className="navbar-end">
                         <div className="field is-grouped">
-                           <Link to='/orders'>                           
-                                 <IconControlButton buttonName='is-success' buttonTitle='Add to shopping cart'
-                                    iconTitle='fas fa-shopping-cart' clickEvent={(e: SyntheticEvent) => this.addToShoppingCart(product, e)} /> 
-                             </Link>
+                            <IconControlButton buttonName='is-success' buttonTitle='Add to shopping cart'
+                                iconTitle='fas fa-shopping-cart' clickEvent={(e: SyntheticEvent) => this.addToShoppingCart(product)} />
                             <ControlButton name='is-info'
                                 title='EDIT' />
                             <IconControlButton buttonName='is-primary is-outlined'
                                 buttonTitle='DELETE'
                                 iconName='is-small'
-                                iconTitle='fas fa-times' />
-
+                                iconTitle='fas fa-times' clickEvent={() => this.deleteProduct(product.id)} />
                         </div>
                     </div>
                 </nav>
@@ -99,5 +93,14 @@ export default class ProductDetails extends React.Component<IProps, IState> {
                 </table>
             </section>
         );
+    }
+    addToShoppingCart(product: IProduct): void {
+        this.props.onAddToCartClick(product);
+        alert('Add to cart' + product.name);
+    }
+
+    deleteProduct(id: number) {
+        this.props.onDeleteProductClick(id);
+        alert('Product was deleted ' + id);
     }
 }

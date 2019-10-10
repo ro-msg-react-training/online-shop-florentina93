@@ -1,18 +1,86 @@
 import React from 'react';
 
-import Products from '../components/products/ProductsComponent';
 import { Route, Redirect, Switch } from 'react-router-dom';
-import { PRODUCTS_PATH, ORDERS_PATH, SIMPLE_SLASH } from '../constants';
+import { PRODUCTS_PATH, ORDERS_PATH, ROOT, BACKEND_API } from '../constants';
+import { IProduct } from '../types';
+import { ProductList } from '../components/products/ProductList';
+import ProductDetails from '../components/products/ProductDetailsComponent';
 import ShoppingCart from '../components/shopping_cart/ShoppingCart';
 
-const App: React.FC = () => (
-  <div>
-    <Switch>
-      <Redirect exact from={SIMPLE_SLASH} to={PRODUCTS_PATH} />
-      <Route path={PRODUCTS_PATH} component={Products} />
-      <Route path={ORDERS_PATH} component={ShoppingCart} />
-    </Switch>
-  </div>
-);
+interface IProps {
+  match: any,
+  history: any
+}
+interface IState {
+  data: IProduct[],
+  cartItems: IProduct[],
+  isLoading: boolean,
+  error: any
+}
+class App extends React.Component<IProps> {
+  state: IState;
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      data: [],
+      cartItems: [],
+      isLoading: true,
+      error: null
+    }
+  }
+  componentDidMount() {
+    this.fetchProducts();
+  }
+  render() {
+    const { data, isLoading, error } = this.state;
+    if (error) {
+      return <p>{error.message}</p>
+    }
+
+    if (isLoading) {
+      return <p>Loading...</p>
+    }
+
+    return (
+      <div>
+        <h2>Online Shop</h2>
+        <Switch>
+          <Redirect exact from={ROOT} to={PRODUCTS_PATH} />
+          <Route path={`${PRODUCTS_PATH}`} exact render={() => <ProductList data={data} />} />
+          <Route path={`${PRODUCTS_PATH}/:id`} exact render={(props) => <ProductDetails id={props.match.params.id}
+            history={props.history} onAddToCartClick={this.addToShoppingCart.bind(this)} onDeleteProductClick={this.deleteProduct.bind(this)} />} />
+          <Route path={`${ORDERS_PATH}`} exact render={() => <ShoppingCart items={this.state.cartItems} />} />
+        </Switch>
+      </div>
+    );
+
+  }
+  fetchProducts() {
+    return fetch(`${BACKEND_API}${PRODUCTS_PATH}`) //return promise
+      .then(response => response.json())
+      .then(result => {
+        this.setState({ data: result, isLoading: false })
+      })
+      .catch(error => this.setState({ error, isLoading: false }));
+  }
+
+  addToShoppingCart(product: IProduct) {
+    console.log('adding product ' + product.name);
+    let stateCopy = { ...this.state };
+    stateCopy.cartItems.push(product);
+    this.setState(stateCopy);
+    //this.setState({cartItems: arr}) should work but is async
+    console.log(this.state.cartItems.length);
+  }
+
+  deleteProduct(id: number) {
+    fetch(`${BACKEND_API}${PRODUCTS_PATH}/${id}`,
+      { method: 'DELETE' })
+      .then(response => console.log(response))
+      .catch(error => this.setState({ error, isLoading: false }))
+      .then(() => this.fetchProducts()) //return promise
+      .then(() => this.props.history.replace('/products')); //execute promise
+  }
+}
 
 export default App;

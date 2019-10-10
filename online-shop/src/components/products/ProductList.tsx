@@ -4,15 +4,10 @@ import { IProduct } from '../../types';
 import { ControlButton } from '../utils/ControlButton';
 import { IconControlButton } from '../utils/IconControlButton';
 import { Product } from "./Product";
-
-
+import { Link } from 'react-router-dom';
+import { ORDERS_PATH } from '../../constants';
 
 export function ProductList({ data }: { data: IProduct[] }) {
-  function handleClick(e: any) {
-    e.preventDefault();
-    console.log('The button was clicked!');
-  }
-  //console.log(data);
   return (
     <div className='section'>
       <nav className="navbar is-transparent">
@@ -23,10 +18,12 @@ export function ProductList({ data }: { data: IProduct[] }) {
         </div>
         <div className="navbar-end">
           <div className="field is-grouped">
-            <IconControlButton buttonName='is-info'
-              iconTitle='fas fa-shopping-cart' clickEvent={handleClick} />
+            <Link to={`${ORDERS_PATH}`}>
+              <IconControlButton buttonName='is-info'
+                iconTitle='fas fa-shopping-cart' />
+            </Link>
             <ControlButton name='is-info'
-              title='ADD' clickEvent={handleClick} />
+              title='ADD' />
           </div>
         </div>
       </nav>
