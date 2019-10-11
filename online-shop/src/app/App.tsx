@@ -59,10 +59,10 @@ class App extends React.Component<IProps> {
       <div>
         <Switch>
           <Redirect exact from={ROOT} to={PRODUCTS_PATH} />
-          <Route path={`${PRODUCTS_PATH}`} exact render={() => <ProductList data={data} />} />
+          <Route path={PRODUCTS_PATH} exact render={() => <ProductList data={data} />} />
           <Route path={`${PRODUCTS_PATH}/:id`} exact render={(props) => <ProductDetails id={props.match.params.id}
             onAddToCartClick={this.addToShoppingCart.bind(this)} onDeleteProductClick={this.deleteProduct.bind(this)} />} />
-          <Route path={`${ORDERS_PATH}`} exact render={() => <ShoppingCart items={this.state.cartItems} onCheckoutClick={this.createNewOrder.bind(this)} />} />
+          <Route path={ORDERS_PATH} exact render={() => <ShoppingCart items={this.state.cartItems} onCheckoutClick={this.createNewOrder.bind(this)} />} />
         </Switch>
       </div>
     );
@@ -102,7 +102,7 @@ class App extends React.Component<IProps> {
         this.setState({ cartItems });
         this.fetchProducts()
       }) //return promise
-      .then(() => this.props.history.replace(`${PRODUCTS_PATH}`)); //execute promise
+      .then(() => this.props.history.replace(PRODUCTS_PATH)); //execute promise
   }
 
   //Just for testing
@@ -120,7 +120,7 @@ class App extends React.Component<IProps> {
       .then((response) => {
         console.log(response);
       })
-      .then(() => this.props.history.replace(`${PRODUCTS_PATH}`));
+      .then(() => this.props.history.replace(PRODUCTS_PATH));
   }
 }
 

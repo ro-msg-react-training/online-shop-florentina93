@@ -18,7 +18,7 @@ export function ProductList({ data }: { data: IProduct[] }) {
         </div>
         <div className="navbar-end">
           <div className="field is-grouped">
-            <Link to={`${ORDERS_PATH}`}>
+            <Link to={ORDERS_PATH}>
               <IconControlButton buttonName='is-info'
                 iconTitle='fas fa-shopping-cart' />
             </Link>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { ControlButton } from '../utils/ControlButton';
 import { IProduct } from '../../types';
+import { CartItem } from './CartItem';
 
 interface IProps {
     items: IProduct[],
@@ -36,18 +37,7 @@ export default class ShoppingCart extends React.Component<IProps> {
                     </thead>
                     <tbody>
                         {this.props.items.map((product: IProduct) =>
-                            <tr>
-                                <td>{product.category}</td>
-                                <td>{product.name}</td>
-                                <td>{product.price} RON</td>
-                                <td>{'Quantity test'}</td>
-                                <td>
-                                    <span className='icon'>
-                                        <i className='fas fa-times' />
-                                    </span>
-                                </td>
-                            </tr>
-                        )}
+                           <CartItem key={product.id} data={product} />)}
                     </tbody>
                 </table>
             </div>

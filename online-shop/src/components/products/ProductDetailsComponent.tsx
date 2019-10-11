@@ -1,4 +1,4 @@
-import React, { SyntheticEvent } from 'react';
+import React from 'react';
 
 import './ProductDetailsComponent.scss';
 
@@ -59,7 +59,7 @@ export default class ProductDetails extends React.Component<IProps, IState> {
                     <div className="navbar-end">
                         <div className="field is-grouped">
                             <IconControlButton buttonName='is-success' buttonTitle='Add to shopping cart'
-                                iconTitle='fas fa-shopping-cart' clickEvent={(e: SyntheticEvent) => this.addToShoppingCart(product)} />
+                                iconTitle='fas fa-shopping-cart' clickEvent={() => this.addToShoppingCart(product)} />
                             <ControlButton name='is-info'
                                 title='EDIT' />
                             <IconControlButton buttonName='is-primary is-outlined'
