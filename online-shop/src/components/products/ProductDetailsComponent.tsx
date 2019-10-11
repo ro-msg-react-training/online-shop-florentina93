@@ -9,7 +9,6 @@ import { IProduct } from '../../types';
 
 interface IProps {
     id: any,
-    history: any,
     onAddToCartClick: (product: IProduct) => void,
     onDeleteProductClick: (id: number) => void
 }

@@ -4,13 +4,11 @@ import { IProduct } from '../../types';
 
 interface IProps {
     items: IProduct[],
+    onCheckoutClick: () => void
 }
 
 export default class ShoppingCart extends React.Component<IProps> {
     render() {
-        if (this.props.items) {
-            console.log(this.props.items);
-        }
         return (
             <div className='section'>
                 <nav className="navbar is-transparent">
@@ -22,7 +20,7 @@ export default class ShoppingCart extends React.Component<IProps> {
                     <div className="navbar-end">
                         <div className="field is-grouped">
                             <ControlButton name='is-info'
-                                title='CHECKOUT' />
+                                title='CHECKOUT' clickEvent={() => this.createNewOrder()} />
                         </div>
                     </div>
                 </nav>
@@ -54,5 +52,9 @@ export default class ShoppingCart extends React.Component<IProps> {
                 </table>
             </div>
         );
+    }
+    createNewOrder() {
+        this.props.onCheckoutClick();
+        console.log('Shopping Cart checkout');
     }
 }

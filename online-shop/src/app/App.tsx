@@ -14,6 +14,7 @@ interface IProps {
 interface IState {
   data: IProduct[],
   cartItems: IProduct[],
+  mockOrder: {},
   isLoading: boolean,
   error: any
 }
@@ -24,6 +25,19 @@ class App extends React.Component<IProps> {
     this.state = {
       data: [],
       cartItems: [],
+      mockOrder: {
+        customer: 'doej',
+        products: [
+          {
+            productId: 3,
+            quantity: 1
+          },
+          {
+            productId: 5,
+            quantity: 2
+          }
+        ]
+      },
       isLoading: true,
       error: null
     }
@@ -43,13 +57,12 @@ class App extends React.Component<IProps> {
 
     return (
       <div>
-        <h2>Online Shop</h2>
         <Switch>
           <Redirect exact from={ROOT} to={PRODUCTS_PATH} />
           <Route path={`${PRODUCTS_PATH}`} exact render={() => <ProductList data={data} />} />
           <Route path={`${PRODUCTS_PATH}/:id`} exact render={(props) => <ProductDetails id={props.match.params.id}
-            history={props.history} onAddToCartClick={this.addToShoppingCart.bind(this)} onDeleteProductClick={this.deleteProduct.bind(this)} />} />
-          <Route path={`${ORDERS_PATH}`} exact render={() => <ShoppingCart items={this.state.cartItems} />} />
+            onAddToCartClick={this.addToShoppingCart.bind(this)} onDeleteProductClick={this.deleteProduct.bind(this)} />} />
+          <Route path={`${ORDERS_PATH}`} exact render={() => <ShoppingCart items={this.state.cartItems} onCheckoutClick={this.createNewOrder.bind(this)} />} />
         </Switch>
       </div>
     );
@@ -65,7 +78,7 @@ class App extends React.Component<IProps> {
   }
 
   addToShoppingCart(product: IProduct) {
-    console.log('adding product ' + product.name);
+    console.log('add to shopping cart ' + product.name);
     let stateCopy = { ...this.state };
     stateCopy.cartItems.push(product);
     this.setState(stateCopy);
@@ -78,8 +91,36 @@ class App extends React.Component<IProps> {
       { method: 'DELETE' })
       .then(response => console.log(response))
       .catch(error => this.setState({ error, isLoading: false }))
-      .then(() => this.fetchProducts()) //return promise
-      .then(() => this.props.history.replace('/products')); //execute promise
+      .then(() => {
+        //this logic should be changed
+        const { cartItems } = this.state;
+        cartItems.forEach((product: IProduct, index: number) => {
+          if (product.id === id) {
+            cartItems.splice(index, 1);
+          }
+        });
+        this.setState({ cartItems });
+        this.fetchProducts()
+      }) //return promise
+      .then(() => this.props.history.replace(`${PRODUCTS_PATH}`)); //execute promise
+  }
+
+  //Just for testing
+  createNewOrder() {
+    //post body data 
+    const { mockOrder } = this.state;
+    //request options
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(mockOrder),
+      headers: { 'Content-Type': 'application/json' }
+    }
+    fetch(`${BACKEND_API}${ORDERS_PATH}`, options)
+      .then(response => response.text())
+      .then((response) => {
+        console.log(response);
+      })
+      .then(() => this.props.history.replace(`${PRODUCTS_PATH}`));
   }
 }
 
